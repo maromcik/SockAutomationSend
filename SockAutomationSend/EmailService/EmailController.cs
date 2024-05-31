@@ -6,9 +6,15 @@ namespace SockAutomationSend.EmailService;
 
 public static class EmailController
 {
-    public static List<Subscription> Subscriptions { get; } = [ new Subscription
+    private static List<Subscription> Subscriptions { get; } =
+    [
+        new Subscription
         {
             EmailAddress = "roman.mariancik@gmail.com"
+        },
+        new Subscription
+        {
+            EmailAddress = "gesvindr@mail.muni.cz"
         }
     ];
 
@@ -34,11 +40,7 @@ public static class EmailController
         var password = Environment.GetEnvironmentVariable("STOCKAUTOMATION_EMAIL_PASSWORD");
         var from = "stock.advisory.company@gmail.com";
 
-        if (string.IsNullOrEmpty(host) ||
-            port == 0 ||
-            string.IsNullOrEmpty(username) ||
-            string.IsNullOrEmpty(password) ||
-            string.IsNullOrEmpty(from))
+        if (string.IsNullOrEmpty(password))
         {
             throw new ArgumentNullException();
         }
