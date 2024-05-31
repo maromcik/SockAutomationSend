@@ -5,21 +5,19 @@ using Microsoft.Extensions.Logging;
 
 namespace SockAutomationSend;
 
-public class ServiceBusQueueTriggerSend
+public class ServiceBusQueueTriggerSend(ILogger<ServiceBusQueueTriggerSend> logger, ServiceBusClient serviceBusClient)
 {
-    private readonly ILogger<ServiceBusQueueTriggerSend> _logger;
+    private const string QueueName = "pa200-hw3-snapshots";
 
-    public ServiceBusQueueTriggerSend(ILogger<ServiceBusQueueTriggerSend> logger)
-    {
-        _logger = logger;
-    }
 
     [Function(nameof(ServiceBusQueueTriggerSend))]
-    public void Run([ServiceBusTrigger("snapshots", Connection = "")] ServiceBusReceivedMessage message)
+    public void Run([ServiceBusTrigger(QueueName,  Connection = "CUSTOMCONNSTR_SERVICE_BUS")] ServiceBusReceivedMessage message)
     {
-        _logger.LogInformation("Message ID: {id}", message.MessageId);
-        _logger.LogInformation("Message Body: {body}", message.Body);
-        _logger.LogInformation("Message Content-Type: {contentType}", message.ContentType);
+        logger.LogInformation("Message ID: {id}", message.MessageId);
+        logger.LogInformation("Message Body: {body}", message.Body);
+        logger.LogInformation("Message Content-Type: {contentType}", message.ContentType);
 
     }
+
+
 }
